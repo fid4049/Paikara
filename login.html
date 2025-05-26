@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>সোসাল মিডিয়া প্ল্যাটফর্ম</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #333;
+    }
+
+    header {
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #4a4a4a;
+    }
+
+    .logo span {
+      color: #6e8efb;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      margin: 30px auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #4a4a4a;
+      font-size: 24px;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 25px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      color: #888;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .tab-btn.active {
+      color: #6e8efb;
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #6e8efb;
+      border-radius: 3px 3px 0 0;
+    }
+
+    form {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    form.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #6e8efb;
+      box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.2);
+      outline: none;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(to right, #6e8efb, #a777e3);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(to right, #5d7de8, #9666d6);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .message {
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+
+    .message.success {
+      background-color: #d4edda;
+      color: #155724;
+      display: block;
+    }
+
+    .message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      display: block;
+    }
+
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 20px 0;
+      background-color: rgba(255, 255, 255, 0.9);
+      margin-top: auto;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .social-icons {
+      margin-top: 15px;
+    }
+
+    .social-icons a {
+      color: #666;
+      margin: 0 10px;
+      font-size: 20px;
+      transition: color 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      color: #6e8efb;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        width: 95%;
+        padding: 20px;
+      }
+      
+      .tab-btn {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">সামাজিক<span>বন্ধন</span></div>
+  </header>
+
+  <div class="container">
+    <h2>আমার সোসাল মিডিয়া প্ল্যাটফর্ম</h2>
+
+    <div class="tabs">
+      <button class="tab-btn active" id="loginTabBtn">লগইন</button>
+      <button class="tab-btn" id="registerTabBtn">রেজিস্ট্রেশন</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" class="active">
+      <label for="loginEmail">ইমেইল</label>
+      <input type="email" id="loginEmail" required placeholder="আপনার ইমেইল ঠিকানা লিখুন" />
+
+      <label for="loginPassword">পাসওয়ার্ড</label>
+      <input type="password" id="loginPassword" required placeholder="আপনার পাসওয়ার্ড লিখুন" />
+
+      <button type="submit">লগইন করুন</button>
+    </form>
+
+    <!-- Registration Form -->
+    <form id="registerForm">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <label for="regName">নাম</label>
+          <input type="text" id="regName" required placeholder="আপনার পূর্ণ নাম" />
+        </div>
+        <div>
+          <label for="regFatherName">পিতার নাম</label>
+          <input type="text" id="regFatherName" required placeholder="আপনার পিতার নাম" />
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <label for="regMobile">মোবাইল</label>
+          <input type="text" id="regMobile" required pattern="^\+?\d{7,15}$" title="সঠিক মোবাইল নম্বর লিখুন" placeholder="+8801XXXXXXXXX" />
+        </div>
+        <div>
+          <label for="regBirthDate">জন্ম তারিখ</label>
+          <input type="date" id="regBirthDate" required />
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <label for="regBloodGroup">রক্তের গ্রুপ</label>
+          <select id="regBloodGroup" required>
+            <option value="">-- নির্বাচন করুন --</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+          </select>
+        </div>
+        <div>
+          <label for="regNeighborhood">পাড়া/মহল্লা</label>
+          <select id="regNeighborhood" required>
+            <option value="">-- নির্বাচন করুন --</option>
+            <option value="বন্ধেবাড়ী">বন্ধেবাড়ী</option>
+            <option value="পশ্চিমপাড়া">পশ্চিমপাড়া</option>
+            <option value="সরকারবাড়ী">সরকারবাড়ী</option>
+            <option value="দক্ষিণপাড়া">দক্ষিণপাড়া</option>
+            <option value="ফকিরবাড়ী">ফকিরবাড়ী</option>
+            <option value="উত্তরপাড়া">উত্তরপাড়া</option>
+            <option value="হাটখোলাপাড়া">হাটখোলাপাড়া</option>
+            <option value="ফকিরনগর">ফকিরনগর</option>
+            <option value="মধ্যপাড়া">মধ্যপাড়া</option>
+            <option value="মাজিবাড়ী">মাজিবাড়ী</option>
+            <option value="খানপাড়া">খানপাড়া</option>
+            <option value="সৈয়ানবাড়ী">সৈয়ানবাড়ী</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="regCurrentAddress">বর্তমান বাসস্থান</label>
+      <input type="text" id="regCurrentAddress" required placeholder="গ্রাম, ডাকঘর, উপজেলা, জেলা" />
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <label for="regEducation">শিক্ষাগত যোগ্যতা</label>
+          <select id="regEducation" required>
+            <option value="">-- নির্বাচন করুন --</option>
+            <option value="প্রাথমিক">প্রাথমিক</option>
+            <option value="মাধ্যমিক">মাধ্যমিক</option>
+            <option value="উচ্চ মাধ্যমিক">উচ্চ মাধ্যমিক</option>
+            <option value="স্নাতক">স্নাতক</option>
+            <option value="স্নাতকোত্তর">স্নাতকোত্তর</option>
+            <option value="অন্য">অন্য</option>
+          </select>
+        </div>
+        <div>
+          <label for="regProfession">পেশা</label>
+          <select id="regProfession" required>
+            <option value="">-- নির্বাচন করুন --</option>
+            <option value="ছাত্র">ছাত্র</option>
+            <option value="শিক্ষক">শিক্ষক</option>
+            <option value="চিকিৎসক">চিকিৎসক</option>
+            <option value="কৃষক">কৃষক</option>
+            <option value="ব্যবসায়ী">ব্যবসায়ী</option>
+            <option value="সরকারি কর্মচারী">সরকারি কর্মচারী</option>
+            <option value="প্রাইভেট কর্মচারী">প্রাইভেট কর্মচারী</option>
+            <option value="বেকার">বেকার</option>
+            <option value="অন্য">অন্য</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <label for="regEmail">ইমেইল</label>
+          <input type="email" id="regEmail" required placeholder="আপনার ইমেইল ঠিকানা" />
+        </div>
+        <div>
+          <label for="regPassword">পাসওয়ার্ড</label>
+          <input type="password" id="regPassword" required minlength="6" placeholder="অন্তত ৬ অক্ষরের পাসওয়ার্ড" />
+        </div>
+      </div>
+
+      <button type="submit">রেজিস্টার করুন</button>
+    </form>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <footer>
+    <p>© ২০২৩ সামাজিকবন্ধন - সকল অধিকার সংরক্ষিত</p>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+    </div>
+  </footer>
+
+  <script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+  const SUPABASE_URL = 'https://bxssqjkgrjciwjagvdfe.supabase.co'
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4c3NxamtncmpjaXdqYWd2ZGZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc5MTM1OTAsImV4cCI6MjA2MzQ4OTU5MH0.v4qu2A5mNTUQUrS8NpBvpc-krHzgCJK-XvcEIZtBj3A'
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+  const loginTabBtn = document.getElementById('loginTabBtn')
+  const registerTabBtn = document.getElementById('registerTabBtn')
+  const loginForm = document.getElementById('loginForm')
+  const registerForm = document.getElementById('registerForm')
+  const messageDiv = document.getElementById('message')
+
+  // ✅ 1. Check localStorage for existing session
+  const savedSession = localStorage.getItem('userSession')
+  if (savedSession) {
+    const session = JSON.parse(savedSession)
+    if (session?.access_token) {
+      // If session exists, redirect to home/index page
+      window.location.href = 'https://seshratergolpo.blogspot.com/p/final-index.html'
+    }
+  }
+
+  // 🔁 Tab switcher
+  loginTabBtn.addEventListener('click', () => {
+    loginTabBtn.classList.add('active')
+    registerTabBtn.classList.remove('active')
+    loginForm.classList.add('active')
+    registerForm.classList.remove('active')
+    messageDiv.textContent = ''
+    messageDiv.className = 'message'
+  })
+
+  registerTabBtn.addEventListener('click', () => {
+    registerTabBtn.classList.add('active')
+    loginTabBtn.classList.remove('active')
+    registerForm.classList.add('active')
+    loginForm.classList.remove('active')
+    messageDiv.textContent = ''
+    messageDiv.className = 'message'
+  })
+
+  // 🔐 Login Submit
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    messageDiv.textContent = ''
+    messageDiv.className = 'message'
+
+    const email = loginForm.loginEmail.value.trim()
+    const password = loginForm.loginPassword.value
+
+    if (!email || !password) {
+      messageDiv.textContent = 'ইমেইল ও পাসওয়ার্ড দিন'
+      messageDiv.classList.add('error')
+      return
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (error) {
+      messageDiv.textContent = 'লগইন ব্যর্থ: ' + error.message
+      messageDiv.classList.add('error')
+      return
+    }
+
+    // ✅ Save user session to localStorage
+    localStorage.setItem('userSession', JSON.stringify(data.session))
+
+    messageDiv.textContent = 'সফলভাবে লগইন হয়েছে!'
+    messageDiv.classList.add('success')
+
+    // Redirect
+    window.location.href = 'https://seshratergolpo.blogspot.com/p/final-index.html'
+  })
+
+  // 📝 Register Submit
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    messageDiv.textContent = ''
+    messageDiv.className = 'message'
+
+    const name = registerForm.regName.value.trim()
+    const father_name = registerForm.regFatherName.value.trim()
+    const mobile = registerForm.regMobile.value.trim()
+    const birth_date = registerForm.regBirthDate.value
+    const blood_group = registerForm.regBloodGroup.value
+    const neighborhood = registerForm.regNeighborhood.value
+    const current_address = registerForm.regCurrentAddress.value.trim()
+    const education = registerForm.regEducation.value
+    const profession = registerForm.regProfession.value
+    const email = registerForm.regEmail.value.trim()
+    const password = registerForm.regPassword.value
+
+    if (!name || !father_name || !mobile || !birth_date || !blood_group || !neighborhood || !current_address || !education || !profession || !email || !password) {
+      messageDiv.textContent = 'সব তথ্য পূরণ করুন'
+      messageDiv.classList.add('error')
+      return
+    }
+
+    // Create account
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+
+    if (authError) {
+      messageDiv.textContent = 'রেজিস্ট্রেশন ব্যর্থ: ' + authError.message
+      messageDiv.classList.add('error')
+      return
+    }
+
+    const userId = authData.user?.id
+
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert([
+        {
+          id: userId,
+          name,
+          father_name,
+          mobile,
+          birth_date,
+          blood_group,
+          neighborhood,
+          current_address,
+          education,
+          profession,
+          email,
+        },
+      ])
+
+    if (profileError) {
+      messageDiv.textContent = 'প্রোফাইল সংরক্ষণে সমস্যা: ' + profileError.message
+      messageDiv.classList.add('error')
+      return
+    }
+
+    messageDiv.textContent = 'রেজিস্ট্রেশন সফল হয়েছে! লগইন করুন।'
+    messageDiv.classList.add('success')
+
+    loginTabBtn.click()
+  })
+</script>
+
+
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
